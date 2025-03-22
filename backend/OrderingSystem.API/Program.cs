@@ -1,11 +1,15 @@
 using OrderingSystem.API.Endpoints;
+using OrderingSystem.Application;
+using OrderingSystem.Infra;
 using System.Text.Json.Serialization;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services
+  .AddApplication()
+  .AddInfra(builder.Configuration);
 
 // Adding JSON Serializable Responses
 builder.Services.ConfigureHttpJsonOptions(opt => {
