@@ -6,8 +6,6 @@ internal static class OrderEndpoints {
     RouteGroupBuilder group = app.MapGroup("/orders");
 
     // Mapping endpoints
-    group.MapGet("/", () => {
-      Results.Ok("Hello, World!");
-    });
+    group.MapGet("/", () => "Hello, World!");
   }
 }

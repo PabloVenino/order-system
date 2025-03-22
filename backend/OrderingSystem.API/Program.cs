@@ -1,11 +1,17 @@
 using OrderingSystem.API.Endpoints;
+using System.Text.Json.Serialization;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
 
+
+// Adding JSON Serializable Responses
+builder.Services.ConfigureHttpJsonOptions(opt => {
+  opt.SerializerOptions.PropertyNamingPolicy = null; // for PascalCase
+  opt.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+});
 
 // Adding Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -22,7 +28,11 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-  app.MapOpenApi();
+  app.UseSwagger();
+  app.UseSwaggerUI(opt => {
+    opt.SwaggerEndpoint("/swagger/v1/swagger.json", "Ordering System for TMB");
+    opt.RoutePrefix = "swagger";
+  });
 }
 
 app.UseHttpsRedirection();
