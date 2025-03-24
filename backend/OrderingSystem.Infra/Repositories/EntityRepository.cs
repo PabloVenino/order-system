@@ -26,21 +26,27 @@ public class EntityRepository<T>(AppDbContext context) : IEntityRepository<T> wh
     return await _dbSet.Where(predicate).ToListAsync();
   }
 
-  public async Task AddAsync(T entity)
+  public async Task<T> AddAsync(T entity)
   {
     await _dbSet.AddAsync(entity);
+    await SaveChangesAsync();
+    return entity;
   }
 
-  public void Update(T entity)
+  public async void Update(T entity)
   {
     _dbSet.Update(entity);
+    await SaveChangesAsync();
   }
 
-  public void Delete(T entity) {
+  public async void Delete(T entity)
+  {
     _dbSet.Remove(entity);
+    await SaveChangesAsync();
   }
 
-  public async Task SaveChangesAsync() {
+  public async Task SaveChangesAsync()
+  {
     await _context.SaveChangesAsync();
   }
 }
