@@ -10,7 +10,7 @@ public class Order
   public string? Customer { get; set; }
   public string? Product { get; set; }
   public decimal Value { get; set; }
-  public DateTime CreatedAt { get; set; }
+  public DateTime? CreatedAt { get; set; }
   public string? Status
   {
     get => _status;
