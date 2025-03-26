@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using OrderingSystem.Application.Interfaces;
 using OrderingSystem.Application.Interfaces.Messaging;
 using OrderingSystem.Infra.Data;
+using OrderingSystem.Infra.Extensions;
 using OrderingSystem.Infra.Repositories;
 using OrderingSystem.Infra.Services.Messaging;
 
@@ -26,6 +27,9 @@ public static class InfraModule
     services.AddScoped<IOrderRepository, OrderRepository>();
 
     services.AddSingleton<IServiceBusPublisher>(new ServiceBusPublisher(config?.GetConnectionString("AzureServiceBus") ?? "", queueName!));
+    services.AddSingleton<IRateLimiterPolicy, RateLimiterPolicy>(
+      provider => new RateLimiterPolicy(1000, TimeSpan.FromMinutes(60)
+    ));
 
     return services;
   }

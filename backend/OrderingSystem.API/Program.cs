@@ -1,6 +1,7 @@
 using OrderingSystem.API.Endpoints;
 using OrderingSystem.Application;
 using OrderingSystem.Infra;
+using OrderingSystem.Infra.Middlewares;
 using System.Text.Json.Serialization;
 
 
@@ -40,7 +41,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseMiddleware<RateLimitingMiddleware>();
 // Map Minimal API Controllers
 app.RegisterOrderSystemEndpoints();
 
